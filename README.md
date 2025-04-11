@@ -13,12 +13,18 @@ Rodzaj translatora: Interpreter
 
 Język implementacji: Python
 
+Planowany wynik działania: Plik .wav
+
+Skaner/parser: ANTLR4
+
 ### Jak działa? 🎤
 
 Kod Pythona jest analizowany przez skaner, który dzieli go na tokeny (np. identyfikatory, liczby, operatory, słowa kluczowe). Parser oparty na własnej gramatyce rozpoznaje struktury takie jak pętle, funkcje, instrukcje warunkowe itp. Każdy element gramatyczny jest mapowany na odpowiedni motyw muzyczny.
 
 Na podstawie rozpoznanych reguł produkcji generowana jest melodia za pomocą syntezatora dźwięku w Pythonie.
 ## Tokeny 🎶
+
+[Lista tokenów](tokeny/tokeny)
 
 ## Gramatyka 🎼
 
