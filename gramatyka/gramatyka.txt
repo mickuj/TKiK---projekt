@@ -1,31 +1,39 @@
 G = (T, V, S, P)
 
-T = { 'if', 'else', 'while', 'for', 'in', 'def', 'print', 'import', 'break', 'continue', 'return', 'false', 'true', 'none', '(', ')', ':', '=', ',', '+', '-', '*', '/', '%', '==', '!=', '<', '>', '<=', '>=', '.', NUM, ID }
+T = { 'if', 'else', 'while', 'for', 'in', 'def', 'print', 'import', 'return', 'false', 'true', 'none', '(', ')', '[', ']', '{', '}', ':', '=', ',', '+', '-', '*', '/', '%', '==', '!=', '<', '>', '<=', '>=', '.', 'and', 'or', 'not', NUM, ID }
 
-V = { program, stmt_list, stmt, if_stmt, while_stmt, for_stmt, func_def, assign_stmt, expr_stmt, expr, param_list, print_stmt, import_stmt, break_stmt, continue_stmt, return_stmt, false_val, true_val, none_val, module, alias, name}
+V = { program, stmt_list, stmt, if_stmt, while_stmt, for_stmt, func_def, func_stmt_list, func_stmt, assign_stmt, expr_stmt, expr, arith_expr, bool_expr, logic_const, param_list, print_stmt, import_stmt, return_stmt, list_expr, dict_expr, elements, kv_pairs, module, alias, name}
 
 S = program
 
 P = {
       program       → stmt_list
       stmt_list     → stmt stmt_list | ε
-      stmt          → if_stmt | while_stmt | for_stmt | func_def | assign_stmt | expr_stmt | print_stmt | import_stmt | break_stmt | continue_stmt | return_stmt | false_val | true_val | none_val
+      stmt          → if_stmt | while_stmt | for_stmt | func_def | assign_stmt | expr_stmt | print_stmt | import_stmt
       if_stmt       → 'if' expr ':' stmt_list 'else' ':' stmt_list
       while_stmt    → 'while' expr ':' stmt_list
       for_stmt      → 'for' ID 'in' expr ':' stmt_list
       print_stmt    → 'print' '(' expr ')'
       import_stm    → 'import' module | 'import' module 'as' alias | 'from' module 'import' name
-      func_def      → 'def' ID '(' param_list ')' ':' stmt_list
+      func_def      → 'def' ID '(' param_list ')' ':' func_stmt_list
+      func_stmt_list  → func_stmt func_stmt_list | ε
+      func_stmt       → if_stmt | while_stmt | for_stmt | assign_stmt
+                | expr_stmt | print_stmt | import_stmt | return_stmt
       assign_stmt   → ID '=' expr
-      expr_stmt     → expr
-      expr          → ID | NUM | expr OP expr | '(' expr ')'
+      expr_stmt     → function_call
+      function_call → ID '(' (expr (',' expr)*)? ')'
+      expr          → arith_expr | bool_expr | logic_const | list_expr | dict_expr
+      arith_expr    → ID | NUM | arith_expr '+' arith_expr | arith_expr '-' arith_expr | arith_expr '*' arith_expr | arith_expr '/' arith_expr | arith_expr '%' arith_expr | '(' arith_expr ')'
+      bool_expr     → arith_expr REL_OP arith_expr | bool_expr LOG_OP bool_expr | '(' bool_expr ')'
+      logic_const   → 'true' | 'false' | 'none'
+      REL_OP        → '==' | '!=' | '<' | '>' | '<=' | '>='
+      LOG_OP        → 'and' | 'or' | 'not'
+      list_expr     → '[' elements? ']'
+      elements      → expr (',' expr)*
+      dict_expr     → '{' kv_pairs? '}'
+      kv_pairs      → expr ':' expr (',' expr ':' expr)*
       param_list    → ID (',' ID)* | ε
-      break_stmt    → 'break'
-      continue_stmt → 'continue'
       return_stmt   → 'return' expr
-      false_val     → 'false'
-      true_val      → 'true'
-      none_val      → 'none'
       module        → ID ('.' ID)*
       alias         → ID
       name          → ID
