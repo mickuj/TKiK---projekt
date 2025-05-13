@@ -32,86 +32,97 @@ G = (T, V, S, P)
 
 T = {
 
-    'def', 'if', 'else', 'while', 'for', 'in', 'print', 'import', 'from', 'as', 'return', 'true', 'false', 'none',
-    '(', ')', '[', ']', '{', '}', ':', '=', ',', '+', '-', '*', '/', '%', '==', '!=', '<', '>', '<=', '>=',
-    ID, NUM, STRING, CHAR
-    
+        'def', 'if', 'else', 'elif', 'while', 'for', 'in', 'print', 'import', 
+        'from', 'as', 'return', 'pass', 'true', 'false', 'none',
+        '+', '-', '*', '/', '%', '=', '+=', '-=', '*=', '/=',
+        '==', '!=', '<', '>', '<=', '>=',
+        '(', ')', '[', ']', '{', '}', ':', ',', '.', ';',
+        ID, NUM, STRING
+        
 }
 
 V = {
 
-    program, stmt, simple_stmt, compound_stmt, assign_stmt, expr_stmt, print_stmt, import_stmt, return_stmt, 
-    func_def, if_stmt, while_stmt, for_stmt, param_list, function_call, expr, arith_expr, bool_expr, logic_const, 
-    list_expr, dict_expr, elements, kv_pairs, module, alias, name, rel_op, log_op
-    
+        program, stmt, simple_stmt, compound_stmt, assign_stmt, assign_op, 
+        expr_stmt, print_stmt, import_stmt, return_stmt,
+        func_def, if_stmt, while_stmt, for_stmt, block,
+        param_list, function_call, expr, arith_expr, bool_expr, logic_const,
+        list_expr, dict_expr, elements, kv_pairs,
+        module, alias, name, rel_op, log_op
+        
 }
 
 S = program
 
 P = {
-  
-    program         → (NEWLINE | stmt)* EOF
+
+        program         → stmt+ EOF
     
-    stmt            → simple_stmt (NEWLINE | EOF) | compound_stmt
+        stmt            → simple_stmt | compound_stmt
     
-    simple_stmt     → assign_stmt | expr_stmt | print_stmt | import_stmt | return_stmt
+        simple_stmt     → (assign_stmt | expr_stmt | print_stmt | import_stmt | return_stmt) NEWLINE
     
-    compound_stmt   → func_def | if_stmt | while_stmt | for_stmt
+        compound_stmt   → func_def | if_stmt | while_stmt | for_stmt
     
-    func_def        → 'def' ID '(' param_list? ')' ':' NEWLINE INDENT stmt+ DEDENT
+        func_def        → 'def' ID '(' param_list? ')' ':' block
     
-    if_stmt         → 'if' expr ':' NEWLINE INDENT stmt+ DEDENT ('else' ':' NEWLINE INDENT stmt+ DEDENT)?
+        if_stmt         → 'if' expr ':' block ('elif' expr ':' block)* ('else' ':' block)?
     
-    while_stmt      → 'while' expr ':' NEWLINE INDENT stmt+ DEDENT
+        while_stmt      → 'while' expr ':' block
     
-    for_stmt        → 'for' ID 'in' expr ':' NEWLINE INDENT stmt+ DEDENT
+        for_stmt        → 'for' ID 'in' expr ':' block
     
-    assign_stmt     → ID '=' expr
+        block           → INDENT stmt+ DEDENT | simple_stmt
     
-    expr_stmt       → function_call
+        assign_stmt     → ID assign_op expr
     
-    print_stmt      → 'print' '(' expr ')'
+        assign_op       → '=' | '+=' | '-=' | '*=' | '/='
     
-    import_stmt     → 'import' module ('as' alias)? | 'from' module 'import' name
+        expr_stmt       → function_call
     
-    return_stmt     → 'return' expr
+        print_stmt      → 'print' '(' expr (',' expr)* ')'
     
-    param_list      → ID (',' ID)*
-  
-    function_call   → ID '(' (expr (',' expr)*)? ')'
+        import_stmt     → 'import' module ('as' alias)? | 'from' module 'import' name
     
-    expr            → arith_expr | bool_expr | logic_const | list_expr | dict_expr | STRING | function_call
+        return_stmt     → 'return' expr?
     
-    arith_expr      → ID | NUM | STRING
-                    | arith_expr '+' arith_expr | arith_expr '-' arith_expr
-                    | arith_expr '*' arith_expr | arith_expr '/' arith_expr
-                    | arith_expr '%' arith_expr | '(' arith_expr ')'
-                    
-    bool_expr       → arith_expr rel_op arith_expr
-                    | bool_expr log_op bool_expr
-                    | '(' bool_expr ')'
-                    
-    logic_const     → 'true' | 'false' | 'none'
+        param_list      → ID (',' ID)*
     
-    list_expr       → '[' elements? ']'
+        function_call   → ID '(' (expr (',' expr)*)? ')'
     
-    elements        → expr (',' expr)*
+        expr            → arith_expr | bool_expr | logic_const | list_expr | dict_expr | STRING | function_call
     
-    dict_expr       → '{' kv_pairs? '}'
+        arith_expr      → ID | NUM | STRING
+                        | arith_expr '+' arith_expr | arith_expr '-' arith_expr
+                        | arith_expr '*' arith_expr | arith_expr '/' arith_expr
+                        | arith_expr '%' arith_expr | '(' arith_expr ')'
     
-    kv_pairs        → expr ':' expr (',' expr ':' expr)*
-  
-    module          → ID ('.' ID)*
+        bool_expr       → arith_expr rel_op arith_expr
+                        | bool_expr log_op bool_expr
+                        | '(' bool_expr ')'
     
-    alias           → ID
+        logic_const     → 'true' | 'false' | 'none'
     
-    name            → ID
-  
-    rel_op          → '==' | '!=' | '<' | '>' | '<=' | '>='
+        list_expr       → '[' elements? ']'
     
-    log_op          → 'and' | 'or' | 'not'
-  
+        elements        → expr (',' expr)*
+    
+        dict_expr       → '{' kv_pairs? '}'
+    
+        kv_pairs        → expr ':' expr (',' expr ':' expr)*
+    
+        module          → ID ('.' ID)*
+    
+        alias           → ID
+    
+        name            → ID
+    
+        rel_op          → '==' | '!=' | '<' | '>' | '<=' | '>='
+    
+        log_op          → 'and' | 'or' | 'not'
+        
 }
+
 
 ## Użyte generatory, skanery, parsery
 ANTLR4
