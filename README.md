@@ -17,6 +17,8 @@ Planowany wynik działania: Plik .wav
 
 Skaner/parser: ANTLR4
 
+Dodatkowe biblioteki w Pythonie: denterhelper, mido, simpleaudio
+
 ### Jak działa? 🎤
 
 Kod Pythona jest analizowany przez skaner, który dzieli go na tokeny (np. identyfikatory, liczby, operatory, słowa kluczowe). Parser oparty na własnej gramatyce rozpoznaje struktury takie jak pętle, funkcje, instrukcje warunkowe itp. Każdy element gramatyczny jest mapowany na odpowiedni motyw muzyczny.
