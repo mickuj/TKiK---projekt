@@ -1,4 +1,4 @@
-# TKiK---projekt
+# Interpreter kodu w Pythonie na melodię
 
 ## Autorki
 Natalia Marcinkowska - natmar@student.agh.edu.pl
