@@ -141,7 +141,7 @@ def example():
             print(i)
     return 42
 ```
-Powyższy kod generuje taki plik melodyczny: [przykład](examples/example.midi)
+Powyższy kod generuje taki plik melodyczny: [przykład](examples/example.mid)
 
 ## Interfejs
 ![image](https://github.com/user-attachments/assets/9b294717-ee91-4d5b-a04f-b3d8ed028ded)
