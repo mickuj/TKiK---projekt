@@ -26,7 +26,7 @@ Kod Pythona jest analizowany przez skaner, który dzieli go na tokeny (np. ident
 Na podstawie rozpoznanych reguł produkcji generowana jest melodia za pomocą syntezatora dźwięku w Pythonie.
 ## Tokeny 🎶
 
-[Lista tokenów](tokeny/tokeny)
+[Lista tokenów](gramatyka/PythonMelody.tokens)
 
 ## Gramatyka 🎼
 
@@ -133,5 +133,16 @@ P = {
 ANTLR4
 
 ## Przykład użycia
+```python
+def example():
+    print("Hello!")
+    for i in range(3):
+        if i % 2 == 0:
+            print(i)
+    return 42
+```
+Powyższy kod generuje taki plik melodyczny: [przykład](examples/example.midi)
 
-##
+## Interfejs
+![image](https://github.com/user-attachments/assets/9b294717-ee91-4d5b-a04f-b3d8ed028ded)
+
