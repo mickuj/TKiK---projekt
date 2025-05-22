@@ -13,11 +13,11 @@ Rodzaj translatora: Interpreter
 
 Język implementacji: Python
 
-Planowany wynik działania: Plik .wav
+Planowany wynik działania: Plik .midi
 
 Skaner/parser: ANTLR4
 
-Dodatkowe biblioteki w Pythonie: denterhelper, mido, simpleaudio
+Dodatkowe biblioteki w Pythonie: denterhelper, mido, pygame
 
 ### Jak działa? 🎤
 
@@ -48,8 +48,8 @@ V = {
         program, stmt, simple_stmt, compound_stmt, assign_stmt, assign_op, 
         expr_stmt, print_stmt, import_stmt, return_stmt,
         func_def, if_stmt, while_stmt, for_stmt, block,
-        param_list, function_call, expr, arith_expr, bool_expr, logic_const,
-        list_expr, dict_expr, elements, kv_pairs,
+        param_list, dotted_name, function_call, expr, arith_expr, bool_expr, 
+        logic_const, list_expr, dict_expr, elements, kv_pairs,
         module, alias, name, rel_op, log_op
         
 }
@@ -90,14 +90,17 @@ P = {
     
         param_list      → ID (',' ID)*
     
-        function_call   → ID '(' (expr (',' expr)*)? ')'
+        function_call   → dotted_name '(' (expr (',' expr)*)? ')'
     
         expr            → arith_expr | bool_expr | logic_const | list_expr | dict_expr | STRING | function_call
-    
+
+        dotted_name     → ID ('.' ID)* ;
+        
         arith_expr      → ID | NUM | STRING
                         | arith_expr '+' arith_expr | arith_expr '-' arith_expr
                         | arith_expr '*' arith_expr | arith_expr '/' arith_expr
                         | arith_expr '%' arith_expr | '(' arith_expr ')'
+                        | dotted_name;
     
         bool_expr       → arith_expr rel_op arith_expr
                         | bool_expr log_op bool_expr
