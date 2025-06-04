@@ -132,6 +132,11 @@ P = {
 ## Użyte generatory, skanery, parsery
 ANTLR4
 
+## Instrukcja obsługi
+W folderze [files](./files/) w repozytorium znajduje się plik C4.wav użyty jako dźwięk bazowy dla interpretera. W celu wygenerowania pozostałych dźwiękach w różnych oktawach i tonacjach, należy uruchomić skrypt [generate_notes.py](./files/generate_notes.py). Ten plik automatycznie stworzy pozostałe dźwięki potrzebne do poprawnego działania interpretera. Plik C4.wav musi zostać umieszczony w folderze "sounds".
+
+Po wygenerwoaniu wszystkich plików .wav należy uruchomić aplikację poprzez plik [main.py](./files/main.py). Wyświetlony zostanie interfejs przypominający odtwarzacz muzyki. W oknie aplikacji można wpisać kod w języku Python, a następnie kliknąć przycisk Play, aby usłyszeć melodię wygenerowaną na podstawie kodu. Można również zapisać powstałą melodię do pliku .mid, wczytać kod z pliku .py lub wyczyścić cały edytor kodu.
+
 ## Przykład użycia
 ```python
 def example():
